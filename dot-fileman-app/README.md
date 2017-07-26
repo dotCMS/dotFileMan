@@ -2,6 +2,12 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.4.
 
+## Running with Electron  
+
+Run `npm run watch-electron` which will copy the electron JS to teh dist directory and watch the source files for changes. In a new terminal you can run electron dist to start the app. This will allow you to debug and run the app
+
+If you just want to run the app with Electron just run `npm run electron`
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

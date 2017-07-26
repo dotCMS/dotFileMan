@@ -12,6 +12,7 @@
     "clean-dist": "rimraf -- dist",
     "create-dist": "mkdirp dist",
     "watch-electron": "npm run clean-dist && npm run create-dist && cp src/electron/* dist && ng build -w --no-delete-output-path --dev --base-href .",
+    "build-electron": "ng build --base-href . && copy src\\electron\\* dist",
     "electron": "npm run build-electron && electron dist"
   },
   "private": true,
