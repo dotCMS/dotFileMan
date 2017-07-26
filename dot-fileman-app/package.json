@@ -12,7 +12,7 @@
     "clean-dist": "rimraf -- dist",
     "create-dist": "mkdirp dist",
     "watch-electron": "npm run clean-dist && npm run create-dist && cp src/electron/* dist && ng build -w --no-delete-output-path --dev --base-href .",
-    "build-electron": "ng build --base-href . && copy src\\electron\\* dist",
+    "build-electron": "ng build --base-href . && cp src/electron/* dist",
     "electron": "npm run build-electron && electron dist"
   },
   "private": true,
@@ -27,7 +27,9 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "core-js": "^2.4.1",
+    "dotcms-ui": "^4.2.0-1500664572183",
     "electron-reload": "^1.2.1",
+    "primeng": "^4.0.1",
     "rxjs": "^5.4.1",
     "zone.js": "^0.8.14"
   },
