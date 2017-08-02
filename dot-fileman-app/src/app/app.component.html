@@ -1,12 +1,13 @@
-<nav class="mdl-navigation">
-  <button (click)="openLogin()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-    <i class="material-icons">login</i>
-  </button>
-  <button (click)="openImageBrowser()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-    <i class="material-icons">image browser</i>
-  </button>
-</nav>
+<div _ngcontent-c0="" class="ng-tns-c0-0" id="layout-topbar">
+  <nav>
+    <button (click)="openLogin()">
+      <i class="material-icons">login</i>
+    </button>
+    <button (click)="openImageBrowser()">
+      <i class="material-icons">image browser</i>
+    </button>
+  </nav>
+</div>
 <div>
   <router-outlet></router-outlet>
 </div>
-
