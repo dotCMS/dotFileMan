@@ -1,12 +1,9 @@
 <div _ngcontent-c0="" class="ng-tns-c0-0" id="layout-topbar">
-  <nav>
-    <button (click)="openLogin()">
-      <i class="material-icons">login</i>
-    </button>
-    <button (click)="openImageBrowser()">
-      <i class="material-icons">image browser</i>
-    </button>
-  </nav>
+  <div class="ui-g">
+    <div class="ui-g-3"><img src="assets/capone_logo.png" style="height: 50px;margin-top: -15px"></div>
+    <div class="ui-g-6" style="text-align: center;"><site-selector *ngIf="!this.appRoutingService.isLoginOpen()"></site-selector></div>
+    <div class="ui-g-3" style="text-align: right;"><p-splitButton label="Config" icon="fa fa-cog" (onClick)="openLogin()" [model]="items"></p-splitButton></div>
+  </div>
 </div>
 <div>
   <router-outlet></router-outlet>

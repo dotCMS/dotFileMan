@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {SettingsStorageService} from 'dotcms-js/dotcms-js/core/util/settings-storage.service';
 import {SettingsService} from '../settings.service';
 import {DotSettings} from 'dotcms-js/dotcms-js/core/util/settings.model';
+import {AppRoutingService} from '../app-routing.service';
 
 export class ConfigSettings {
   siteURL: string
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
   dotConf: DotSettings;
   constructor(
     private settingsStorageService: SettingsStorageService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private appRoutingService: AppRoutingService
   ) {
     this.dotConf = this.settingsStorageService.getSettings();
     if (!this.dotConf) {
@@ -34,11 +36,16 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-
-    this.settingsService.saveConfigSettings(this.configSettings);
+    this.settingsService.saveConfigSettings(this.configSettings)
+      .subscribe(
+        token => {
+          this.settingsStorageService.storeSettings(this.configSettings.siteURL, token);
+          this.appRoutingService.openImageBrowser();
+        });
   }
 
   removeCurrentToken() {
     this.settingsStorageService.clearSettings();
+    location.reload();
   }
 }

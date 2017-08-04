@@ -1,5 +1,5 @@
 <div class="page-content">
-  <h4>Configuration</h4>
+  <h4>Login Config</h4>
   <form (ngSubmit)="onSubmit()">
     <div>
       <label for="siteURL">dotCMS URL</label>
@@ -13,11 +13,13 @@
              [(ngModel)]="configSettings.userName"
              name="username">
     </div>
-    <label for="password">Password</label>
-    <input type="password" pPassword id="password"
-           [(ngModel)]="configSettings.password"
-           name="password">
-    <button pButton type="text" label="Update Config" style="width: auto"></button>
+    <div>
+      <label for="password">Password</label>
+      <input type="password" pPassword id="password" [feedback]="false"
+             [(ngModel)]="configSettings.password"
+             name="password">
+    </div>
+    <button pButton type="text" label="Update Login" style="width: auto"></button>
   </form>
-  <button pButton type="text" (click)="removeCurrentToken()" label="Clear JWT Token" style="width: auto"></button>
+  <button *ngIf="dotConf.jwt" pButton type="text" (click)="removeCurrentToken()" label="Clear JWT Token" style="width: auto"></button>
 </div>

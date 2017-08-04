@@ -2,30 +2,33 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
+import { SettingsService } from './settings.service';
 import {AppRoutingModule} from './app-routing/app-routing.module';
 import { ImageBrowserComponent } from './image-browser/image-browser.component';
 import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 import {AppRoutingService} from './app-routing.service';
 import {
   AutoCompleteModule, BreadcrumbModule,
-  ButtonModule, DataTableModule, DragDropModule, InputTextModule, MenuModule, PasswordModule, SharedModule, TreeModule,
+  ButtonModule, DataGridModule, DataTableModule, DialogModule, DragDropModule, FileUploadModule, InputTextModule,
+  MenuModule, PanelModule,
+  PasswordModule,
+  SharedModule, SplitButtonModule, TreeModule,
   TreeTableModule
 } from 'primeng/primeng';
-import {SettingsStorageService} from 'dotcms-js/dotcms-js/core/util/settings-storage.service';
-import {LocalStoreService} from 'dotcms-js/dotcms-js/core/util/local-store.service';
-import {SiteBrowserState} from 'dotcms-js/dotcms-js/core/util/site-browser.state';
-import {AppConfig} from 'dotcms-js/dotcms-js/core/app.config';
-import {HttpClient} from 'dotcms-js/dotcms-js/core/util/http.service';
-import {NotificationService} from 'dotcms-js/dotcms-js/core/util/notification.service';
-import {SiteTreetableService} from 'dotcms-js/dotcms-js/components/site-treetable/site-treetable.service';
-import {SiteBrowserService} from 'dotcms-js/dotcms-js/core/util/site-browser.service';
-import {SiteSelectorService} from 'dotcms-js/dotcms-js/components/site-selector/site-selector.service';
-import {LoggerService} from 'dotcms-js/dotcms-js/core/util/logger.service';
-import {JWTAuthService} from 'dotcms-js/dotcms-js/core/util/jwt-auth.service';
 import {Logger, LOG_LOGGER_PROVIDERS, Options as LoggerOptions, Level as LoggerLevel} from 'angular2-logger/core';
 import {HttpModule, JsonpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
-import {DotcmsSiteSelectorModule} from 'dotcms-js/dotcms-js/components/site-selector/site-selector.component';
+import {
+  AppConfig,
+  DotcmsBreadcrumbModule, DotcmsSiteSelectorModule, FileService, FolderService, HttpClient, JWTAuthService,
+  LocalStoreService,
+  LoggerService,
+  NotificationService,
+  SettingsStorageService, SiteBrowserService,
+  SiteBrowserState, SiteSelectorService, SiteTreetableService
+} from 'dotcms-js/dotcms-js';
+import { DataGridComponent } from './image-browser/data-grid/data-grid.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -45,14 +48,23 @@ import {DotcmsSiteSelectorModule} from 'dotcms-js/dotcms-js/components/site-sele
     InputTextModule,
     ButtonModule,
     PasswordModule,
-    DotcmsSiteSelectorModule
+    DotcmsSiteSelectorModule,
+    DotcmsBreadcrumbModule,
+    DataGridModule,
+    PanelModule,
+    BrowserAnimationsModule,
+    DialogModule,
+    FileUploadModule,
+    SplitButtonModule
   ],
   declarations: [
     AppComponent,
     LoginComponent,
-    ImageBrowserComponent
+    ImageBrowserComponent,
+    DataGridComponent
   ],
   providers: [
+    {provide: SettingsService, useClass: SettingsService},
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: AppRoutingService, useClass: AppRoutingService},
     {provide: LoggerOptions, useValue: { level: LoggerLevel.INFO } }, Logger,
@@ -65,9 +77,11 @@ import {DotcmsSiteSelectorModule} from 'dotcms-js/dotcms-js/components/site-sele
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: NotificationService, useClass: NotificationService},
     {provide: SiteBrowserService, useClass: SiteBrowserService},
+    {provide: FolderService, useClass: FolderService},
     {provide: SiteTreetableService, useClass: SiteTreetableService},
     {provide: SiteSelectorService, useClass: SiteSelectorService},
     {provide: JWTAuthService, useClass: JWTAuthService},
+    {provide: FileService, useClass: FileService}
   ],
   bootstrap: [AppComponent]
 })

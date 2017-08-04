@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {JWTAuthService} from 'dotcms-js/dotcms-js/core/util/jwt-auth.service';
 import {SettingsStorageService} from 'dotcms-js/dotcms-js/core/util/settings-storage.service';
 import {ConfigSettings} from './login/login.component';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class SettingsService {
@@ -13,12 +14,8 @@ export class SettingsService {
     private settingsStorageService: SettingsStorageService
   ) {}
 
-  saveConfigSettings(configSettings: ConfigSettings) {
-    this.authService.getJWT(configSettings.siteURL, configSettings.userName, configSettings.password)
-      .subscribe(
-        token => {
-          this.settingsStorageService.storeSettings(configSettings.siteURL, token);
-        });
+  saveConfigSettings(configSettings: ConfigSettings): Observable<string> {
+    return this.authService.getJWT(configSettings.siteURL, configSettings.userName, configSettings.password);
   }
 
 }
