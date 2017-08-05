@@ -29,6 +29,8 @@ import {
 } from 'dotcms-js/dotcms-js';
 import { DataGridComponent } from './image-browser/data-grid/data-grid.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BreadcrumbComponent } from './image-browser/breadcrumb/breadcrumb.component';
+import {ContentSearchService} from './content-search.service';
 
 @NgModule({
   imports: [
@@ -49,7 +51,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     ButtonModule,
     PasswordModule,
     DotcmsSiteSelectorModule,
-    DotcmsBreadcrumbModule,
     DataGridModule,
     PanelModule,
     BrowserAnimationsModule,
@@ -61,7 +62,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     AppComponent,
     LoginComponent,
     ImageBrowserComponent,
-    DataGridComponent
+    DataGridComponent,
+    BreadcrumbComponent
   ],
   providers: [
     {provide: SettingsService, useClass: SettingsService},
@@ -81,7 +83,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     {provide: SiteTreetableService, useClass: SiteTreetableService},
     {provide: SiteSelectorService, useClass: SiteSelectorService},
     {provide: JWTAuthService, useClass: JWTAuthService},
-    {provide: FileService, useClass: FileService}
+    {provide: FileService, useClass: FileService},
+    {provide: ContentSearchService, useClass: ContentSearchService}
   ],
   bootstrap: [AppComponent]
 })

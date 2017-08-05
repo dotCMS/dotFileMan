@@ -23,7 +23,7 @@ import {FileUpload} from 'primeng/primeng';
               </span>
               <span *ngSwitchCase="'file_asset'">
                 <a (click)="displayDetails(treeable)">
-                  <img *ngIf="treeable.isImage() && treeable.extension!='ico'" src="{{dotCMSURL}}/contentAsset/image/{{treeable.identifier}}/fileAsset/filter/Thumbnail/thumbnail_w/48/thumbnail_h/48">
+                  <img *ngIf="treeable.isImage() && treeable.extension!='ico'" src="{{dotCMSURL}}/contentAsset/image/{{treeable.inode}}/fileAsset/filter/Thumbnail/thumbnail_w/48/thumbnail_h/48/byInode/true">
                   <span *ngIf="!treeable.isImage() || treeable.extension=='ico'" class="" aria-hidden="true">
                     <img src="assets/file.png">
                   </span>
@@ -44,7 +44,7 @@ import {FileUpload} from 'primeng/primeng';
 
       <div class="ui-g" *ngIf="selectedFile">
         <div class="ui-g-12 ui-md-7">
-          <img *ngIf="selectedFile.isImage()" src="{{dotCMSURL}}/contentAsset/image/{{selectedFile.identifier}}/fileAsset/filter/Thumbnail/thumbnail_w/630/thumbnail_h/500">
+          <img *ngIf="selectedFile.isImage()" src="{{dotCMSURL}}/contentAsset/image/{{selectedFile.inode}}/fileAsset/filter/Thumbnail/thumbnail_w/530/thumbnail_h/400/byInode/true">
           <img *ngIf="!selectedFile.isImage()" src="{{dotCMSURL}}/dA/{{selectedFile.inode}}/225w" onerror="this.style.display='none'">
         </div>
         <div class="ui-g-12 ui-md-5">
@@ -164,10 +164,21 @@ export class DataGridComponent implements OnInit {
       const file: any = files[i];
       this.fileService.uploadFile(file, folder.path, fileContentTypeID);
     }
+
     this.messageService.displayInfoMessage('Uploaded all files');
     this.uploadedFiles = [];
     this.fieldUpload.clear();
     this.uploadDialog = false;
+    // Needs to be updated so the file service returns errors and messages and then load on sucussfull upload
+    setTimeout(() => {
+      this.loadFolder(this.updateService.getURI());
+    }, 2000);
+    setTimeout(() => {
+      this.loadFolder(this.updateService.getURI());
+    }, 2000);
+    setTimeout(() => {
+      this.loadFolder(this.updateService.getURI());
+    }, 2000);
   }
 
 }
