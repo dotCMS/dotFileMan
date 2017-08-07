@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AppRoutingService} from './app-routing.service';
 import {SettingsStorageService} from 'dotcms-js/dotcms-js';
 import {MenuItem} from 'primeng/primeng';
+import {ContentSearchService} from './content-search.service';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +12,21 @@ import {MenuItem} from 'primeng/primeng';
 export class AppComponent implements OnInit {
   constructor(
     private settingsStorageService: SettingsStorageService,
-    private appRoutingService: AppRoutingService
-  ) {}
+    private appRoutingService: AppRoutingService,
+    private contentSearchService: ContentSearchService
+  ) {
+    contentSearchService.searchQuery
+      .subscribe(searchQuery => {
+        this.searchQuery = searchQuery;
+      });
+  }
   title = 'app';
   items: MenuItem[];
+  searchQuery: string;
+
+  updateSearch() {
+    this.contentSearchService.changeSearchQuery(this.searchQuery);
+  }
 
   ngOnInit() {
     if (!this.settingsStorageService.getSettings().jwt) {

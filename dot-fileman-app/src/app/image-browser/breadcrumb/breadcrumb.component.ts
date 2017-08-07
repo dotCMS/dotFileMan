@@ -1,6 +1,8 @@
 import {MenuItem} from 'primeng/components/common/api';
 import {Component, Inject} from '@angular/core';
 import {SiteBrowserState} from 'dotcms-js/dotcms-js';
+import {Site} from 'dotcms-js/dotcms-js/core/treeable/shared/site.model';
+import {ContentSearchService} from '../../content-search.service';
 
 /**
  * The BreadcrumbComponent provides a PrimeNG Component for providing navigation with dotCMS Components
@@ -23,11 +25,14 @@ export class BreadcrumbComponent {
   pathItems: MenuItem[];
   hostDialog: boolean;
 
-  constructor(private updateService: SiteBrowserState) {
+  constructor(
+    private updateService: SiteBrowserState,
+    private contentSearchService: ContentSearchService
+  ) {
     this.buildMenuItemsFromURI(this.updateService.getURI());
     updateService.currentSite.subscribe(
-      siteName => {
-        this.onSiteChange(siteName);
+      site => {
+        this.onSiteChange(site);
       });
     updateService.currentFolder.subscribe(
       folderName => {
@@ -51,9 +56,9 @@ export class BreadcrumbComponent {
    * Called when the [[SiteBrowserState]] Site is changed. This is managed via a Subscription
    * @param siteName
    */
-  onSiteChange(siteName: string): void {
+  onSiteChange(site: Site): void {
     this.pathItems = [];
-    this.addSiteItem(siteName);
+    this.addSiteItem(site);
     this.closeHostSelect();
   }
 
@@ -78,15 +83,16 @@ export class BreadcrumbComponent {
     return uri;
   }
 
-  private addSiteItem(siteName: string): void {
+  private addSiteItem(site: Site): void {
     this.pathItems.push({
       command: (event: Event) => {
-        this.updateService.changeSite(siteName);
+        this.updateService.changeSite(site);
         this.updateService.changeURI(null);
         this.updateService.changeFolder(null);
+        this.contentSearchService.changeSearchQuery(null);
         setTimeout(() => {
         }, 100);
-      }, label: siteName
+      }, label: site ? site.hostname : ''
     });
   }
 
@@ -103,11 +109,11 @@ export class BreadcrumbComponent {
 
   private buildMenuItemsFromURI(uri: string): void {
     this.pathItems = [];
-    const siteName: string = this.updateService.getSelectedSite();
-    if (!siteName) {
+    const site: Site = this.updateService.getSelectedSite();
+    if (!site || !site.hostname) {
       return;
     }
-    this.addSiteItem(siteName);
+    this.addSiteItem(site);
     if (uri) {
       const folders: string[] = uri.split('/');
       for (let i = 0; i < folders.length; i++) {

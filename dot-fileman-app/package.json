@@ -30,7 +30,7 @@
     "angular2-logger": "^0.6.0",
     "copyfiles": "^1.2.0",
     "core-js": "^2.4.1",
-    "dotcms-js": "^4.2.0-b58",
+    "dotcms-js": "^4.2.0-b66",
     "electron-prebuilt": "^1.4.13",
     "electron-reload": "^1.2.1",
     "font-awesome": "^4.7.0",

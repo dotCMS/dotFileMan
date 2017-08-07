@@ -7,6 +7,8 @@ import {
 import {Folder} from 'dotcms-js/dotcms-js/core/treeable/shared/folder.model';
 import {File} from 'dotcms-js/dotcms-js/core/treeable/shared/file.model';
 import {FileUpload} from 'primeng/primeng';
+import {ContentSearchService} from '../../content-search.service';
+import {Site} from 'dotcms-js/dotcms-js/core/treeable/shared/site.model';
 
 @Component({
   selector: 'app-data-grid',
@@ -71,30 +73,52 @@ export class DataGridComponent implements OnInit {
 
   @ViewChild('fileUploadWidget') fieldUpload: FileUpload;
   dotCMSURL = '';
-  siteName = '';
+  site: Site;
   treeables: Treeable[];
   displayDialog: boolean;
   uploadDialog: boolean;
   selectedFile: File;
   uploadedFiles: any[] = [];
-  constructor(private updateService: SiteBrowserState,
-              private fileService: FileService,
-              private log: LoggerService,
-              private siteBrowserService: SiteBrowserService,
-              private settingsStorageService: SettingsStorageService,
-              private messageService: NotificationService,
-              private folderService: FolderService) {
+  searchQuery: string;
+
+  constructor(
+    private updateService: SiteBrowserState,
+    private fileService: FileService,
+    private log: LoggerService,
+    private siteBrowserService: SiteBrowserService,
+    private settingsStorageService: SettingsStorageService,
+    private messageService: NotificationService,
+    private folderService: FolderService,
+    private contentSearchService: ContentSearchService
+  ) {
     if (settingsStorageService.getSettings()) {this.dotCMSURL = settingsStorageService.getSettings().site; }
-    this.siteName = updateService.getSelectedSite();
+    this.site = updateService.getSelectedSite();
     if (updateService.getURI()) {
       this.loadFolder(updateService.getURI());
     }
     updateService.currentSite
-      .subscribe(siteName => {
-        if (siteName) {
-          this.loadSite(siteName);
+      .subscribe(site => {
+        if (site) {
+          this.loadSite(site);
         }
       });
+    contentSearchService.searchQuery
+      .subscribe(searchQuery => {
+        if (searchQuery && searchQuery.trim() !== '') {
+          updateService.changeURI(null);
+          this.loadSearchResults(searchQuery);
+        }else {
+          if (updateService.getSelectedFolder() != null && updateService.getSelectedFolder().trim() !== '') {
+            if (updateService.getURI()) {
+              this.loadFolder(updateService.getURI());
+            }
+          }else {
+            if (updateService.getSelectedSite()) {
+              this.loadSite(updateService.getSelectedSite());
+            }
+          }
+        }
+    });
     updateService.currentURI
       .subscribe(uri => {
         if (uri) {
@@ -108,15 +132,28 @@ export class DataGridComponent implements OnInit {
   ngOnInit() {
   }
 
+  loadSearchResults(searchQuery: string) {
+    if (searchQuery !== null && searchQuery.trim().length > 0) {
+      searchQuery.trim();
+      searchQuery = searchQuery + '*';
+      searchQuery = searchQuery.split(' ').join('* ');
+      searchQuery = '+baseType:4%20+(' + (this.site && this.site.identifier ? 'conhost:' + this.site.identifier : '') + '%20conhost:SYSTEM_HOST)%20+deleted:false%20+working:true%20+_all:(' + searchQuery + ')/orderby/modDate%20desc';
+      this.contentSearchService.search(searchQuery)
+        .subscribe((treeables: Treeable[]) => this.treeables = treeables);
+      setTimeout(() => {
+      }, 100);
+    }
+  }
+
   loadFolder(uri: string): void {
-    this.siteBrowserService.getTreeableAssetsUnderFolder(this.siteName, uri)
+    this.siteBrowserService.getTreeableAssetsUnderFolder(this.site.hostname, uri)
       .subscribe((treeables: Treeable[]) => this.treeables = treeables);
     setTimeout(() => {}, 100);
   }
 
-  loadSite(siteName: string): void {
-    this.siteName = siteName;
-    this.siteBrowserService.getTreeableAssetsUnderSite(siteName)
+  loadSite(site: Site): void {
+    this.site = site;
+    this.siteBrowserService.getTreeableAssetsUnderSite(site.hostname)
       .subscribe((treeables: Treeable[]) => this.treeables = treeables);
     setTimeout(() => {}, 100);
   }
@@ -152,7 +189,7 @@ export class DataGridComponent implements OnInit {
 
   onUpload(e: any) {
     const uri: String = this.updateService.getURI();
-    this.folderService.loadFolderByURI(this.siteName, uri)
+    this.folderService.loadFolderByURI(this.site.hostname, uri)
       .subscribe((folder: Folder) => this.uploadIntoFolder(folder, e.files));
     setTimeout(() => {}, 100);
     return;

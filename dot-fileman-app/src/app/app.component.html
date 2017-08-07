@@ -1,7 +1,8 @@
 <div _ngcontent-c0="" class="ng-tns-c0-0" id="layout-topbar">
   <div class="ui-g">
     <div class="ui-g-3"><img src="assets/capone_logo.png" style="height: 50px;margin-top: -15px"></div>
-    <div class="ui-g-6" style="text-align: center;"></div>
+    <div class="ui-g-6" style="text-align: center;">
+      <input type="text" pInputText [(ngModel)]="searchQuery" (input)="updateSearch()"/></div>
     <div class="ui-g-3" style="text-align: right;"><p-splitButton label="Config" icon="fa fa-cog" (onClick)="openLogin()" [model]="items"></p-splitButton></div>
   </div>
 </div>
