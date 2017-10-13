@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {SettingsStorageService} from 'dotcms-js/dotcms-js/core/util/settings-storage.service';
+import {SettingsStorageService} from 'dotcms-js/core/util/settings-storage.service';
 import {SettingsService} from '../settings.service';
-import {DotSettings} from 'dotcms-js/dotcms-js/core/util/settings.model';
+import {DotSettings} from 'dotcms-js/core/util/settings.model';
 import {AppRoutingService} from '../app-routing.service';
 
 export class ConfigSettings {

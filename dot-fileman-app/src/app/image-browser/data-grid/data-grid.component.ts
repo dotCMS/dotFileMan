@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Treeable} from 'dotcms-js/dotcms-js/core/treeable/shared/treeable.model';
+import {Treeable} from 'dotcms-js/core/treeable/shared/treeable.model';
 import {
-  FileService, FolderService, LoggerService, NotificationService, SettingsStorageService,
+  FileService, FolderService, SettingsStorageService,
   SiteBrowserService, SiteBrowserState
 } from 'dotcms-js/dotcms-js';
-import {Folder} from 'dotcms-js/dotcms-js/core/treeable/shared/folder.model';
-import {File} from 'dotcms-js/dotcms-js/core/treeable/shared/file.model';
+import {Folder} from 'dotcms-js/core/treeable/shared/folder.model';
+import {File} from 'dotcms-js/core/treeable/shared/file.model';
 import {FileUpload} from 'primeng/primeng';
 import {ContentSearchService} from '../../content-search.service';
-import {Site} from 'dotcms-js/dotcms-js/core/treeable/shared/site.model';
+import {Site} from 'dotcms-js/core/treeable/shared/site.model';
 
 @Component({
   selector: 'app-data-grid',
@@ -38,9 +38,9 @@ import {Site} from 'dotcms-js/dotcms-js/core/treeable/shared/site.model';
       </ng-template>
     </p-dataGrid>
     <p-dialog header="Upload Files" [closable]="true" [(visible)]="uploadDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onUploadHide()" width="500">
-    <p-fileUpload #fileUploadWidget name="myfile[]" customUpload="true" (uploadHandler)="onUpload($event)" (onSelect)="addFileToUpload($event)" (onClear)="clearUploads($event)"
-                  multiple="true" accept="image/*" maxFileSize="1000000">
-    </p-fileUpload>
+      <p-fileUpload #fileUploadWidget name="myfile[]" customUpload="true" (uploadHandler)="onUpload($event)" (onSelect)="addFileToUpload($event)" (onClear)="clearUploads($event)"
+                    multiple="true" maxFileSize="1000000">
+      </p-fileUpload>
     </p-dialog>
     <p-dialog header="File Details" [closable]="true" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="1040" (onAfterHide)="onDialogHide()">
 
@@ -84,10 +84,8 @@ export class DataGridComponent implements OnInit {
   constructor(
     private updateService: SiteBrowserState,
     private fileService: FileService,
-    private log: LoggerService,
     private siteBrowserService: SiteBrowserService,
     private settingsStorageService: SettingsStorageService,
-    private messageService: NotificationService,
     private folderService: FolderService,
     private contentSearchService: ContentSearchService
   ) {
@@ -202,7 +200,7 @@ export class DataGridComponent implements OnInit {
       this.fileService.uploadFile(file, folder.path, fileContentTypeID);
     }
 
-    this.messageService.displayInfoMessage('Uploaded all files');
+    console.log('Uploaded all files');
     this.uploadedFiles = [];
     this.fieldUpload.clear();
     this.uploadDialog = false;

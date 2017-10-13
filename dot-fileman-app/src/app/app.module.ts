@@ -15,17 +15,12 @@ import {
   SharedModule, SplitButtonModule, TreeModule,
   TreeTableModule
 } from 'primeng/primeng';
-import {Logger, LOG_LOGGER_PROVIDERS, Options as LoggerOptions, Level as LoggerLevel} from 'angular2-logger/core';
 import {HttpModule, JsonpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import {
-  AppConfig,
-  DotcmsBreadcrumbModule, DotcmsSiteSelectorModule, FileService, FolderService, HttpClient, JWTAuthService,
-  LocalStoreService,
-  LoggerService,
-  NotificationService,
-  SettingsStorageService, SiteBrowserService,
-  SiteBrowserState, SiteSelectorService, SiteTreetableService
+  DotFileModule, DotFolderModule,
+  DotHttpModule, DotNotificationModule, DotSettingsStorageModule, DotSiteBrowserModule,
+  DotSiteSelectorModule
 } from 'dotcms-js/dotcms-js';
 import { DataGridComponent } from './image-browser/data-grid/data-grid.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -50,13 +45,19 @@ import {ContentSearchService} from './content-search.service';
     InputTextModule,
     ButtonModule,
     PasswordModule,
-    DotcmsSiteSelectorModule,
     DataGridModule,
     PanelModule,
     BrowserAnimationsModule,
     DialogModule,
     FileUploadModule,
-    SplitButtonModule
+    SplitButtonModule,
+    DotSiteSelectorModule,
+    DotHttpModule,
+    DotSettingsStorageModule,
+    DotNotificationModule,
+    DotFileModule,
+    DotSiteBrowserModule,
+    DotFolderModule
   ],
   declarations: [
     AppComponent,
@@ -69,21 +70,6 @@ import {ContentSearchService} from './content-search.service';
     {provide: SettingsService, useClass: SettingsService},
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: AppRoutingService, useClass: AppRoutingService},
-    {provide: LoggerOptions, useValue: { level: LoggerLevel.INFO } }, Logger,
-    {provide: LoggerService, useClass: LoggerService},
-    {provide: SiteBrowserState, useClass: SiteBrowserState},
-    {provide: LocalStoreService, useClass: LocalStoreService},
-    {provide: AppConfig, useClass: AppConfig},
-    {provide: SettingsStorageService, useClass: SettingsStorageService},
-    {provide: HttpClient, useClass: HttpClient},
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
-    {provide: NotificationService, useClass: NotificationService},
-    {provide: SiteBrowserService, useClass: SiteBrowserService},
-    {provide: FolderService, useClass: FolderService},
-    {provide: SiteTreetableService, useClass: SiteTreetableService},
-    {provide: SiteSelectorService, useClass: SiteSelectorService},
-    {provide: JWTAuthService, useClass: JWTAuthService},
-    {provide: FileService, useClass: FileService},
     {provide: ContentSearchService, useClass: ContentSearchService}
   ],
   bootstrap: [AppComponent]

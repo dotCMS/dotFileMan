@@ -1,25 +1,22 @@
 import {Inject, Injectable} from '@angular/core';
-import {HttpClient, LoggerService, NotificationService} from 'dotcms-js/dotcms-js';
+import {HttpClient} from 'dotcms-js/dotcms-js';
 import {ErrorObservable} from 'rxjs/observable/ErrorObservable';
 import {Observable} from 'rxjs/Observable';
-import {Treeable} from 'dotcms-js/dotcms-js/core/treeable/shared/treeable.model';
-import {File} from 'dotcms-js/dotcms-js/core/treeable/shared/file.model';
+
 import {Response} from '@angular/http';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Treeable} from 'dotcms-js/core/treeable/shared/treeable.model';
+import {File} from 'dotcms-js/core/treeable/shared/file.model';
 
 @Injectable()
 @Inject('httpClient')
-@Inject('notificationService')
-@Inject('log')
 export class ContentSearchService {
 
   searchQuery: Observable<string>;
   private searchQuerySubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
   constructor(
-    private httpClient: HttpClient,
-    private notificationService: NotificationService,
-    private log: LoggerService,
+    private httpClient: HttpClient
   ) {
     this.searchQuery = this.searchQuerySubject.asObservable();
   }
@@ -57,8 +54,8 @@ export class ContentSearchService {
     const errMsg = (error.message) ? error.message :
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
     if (errMsg) {
-      this.log.error(errMsg);
-      this.notificationService.displayErrorMessage('There was an error; please try again : ' + errMsg);
+      // this.log.error(errMsg);
+      console.error('There was an error; please try again : ' + errMsg);
       return Observable.throw(errMsg);
     }
   }

@@ -1,7 +1,7 @@
 import {MenuItem} from 'primeng/components/common/api';
 import {Component, Inject} from '@angular/core';
 import {SiteBrowserState} from 'dotcms-js/dotcms-js';
-import {Site} from 'dotcms-js/dotcms-js/core/treeable/shared/site.model';
+import {Site} from 'dotcms-js/core/treeable/shared/site.model';
 import {ContentSearchService} from '../../content-search.service';
 
 /**
@@ -13,7 +13,7 @@ import {ContentSearchService} from '../../content-search.service';
   selector: 'app-breadcrumb',
   template: `
     <p-breadcrumb [home]="homeItem" [model]="pathItems"></p-breadcrumb>
-    <p-dialog header="Upload Files" [contentStyle]="{'overflow':'visible'}" [closable]="true" [(visible)]="hostDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="closeHostSelect()" width="500">
+    <p-dialog header="Select Host" [contentStyle]="{'overflow':'visible'}" [closable]="true" [(visible)]="hostDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="closeHostSelect()" width="500">
       <site-selector></site-selector>
     </p-dialog>
   `
